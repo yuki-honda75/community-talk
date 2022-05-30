@@ -18,14 +18,26 @@ public class CommunityRestController {
 	@Autowired
 	private CommunityService communityService;
 	
-	@RequestMapping(value = "/all", method = RequestMethod.GET)
+	@RequestMapping(value = "/get", method = RequestMethod.GET)
 	public Map<String, List<Community>> getCommunity() {
 		Map<String, List<Community>> map = new HashMap<>();
-		List<Community> communityList = communityService.findAll();
+		List<Community> joinedCommunityList = communityService.findByJoined(1);
+		List<Community> recommendedCommunityList = communityService.findByRecommendation(1);
 		
-		map.put("communityList", communityList);
+		map.put("joined", joinedCommunityList);
+		map.put("recommended", recommendedCommunityList);
 		
 		return map;
 		
+	}
+	
+	@RequestMapping(value = "/gethobby", method = RequestMethod.GET)
+	public Map<String, List<Community>> getCommunityHobby(Integer hobbyId) {
+		Map<String, List<Community>> map = new HashMap<>();
+		List<Community> communityList = communityService.findByHobby(hobbyId);
+		
+		map.put("communityHobbyList", communityList);
+		
+		return map;
 	}
 }

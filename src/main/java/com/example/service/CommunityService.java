@@ -16,4 +16,16 @@ public class CommunityService {
 	public List<Community> findAll() {
 		return communityRepository.findAll();
 	}
+	
+	public List<Community> findByJoined(Integer userId) {
+		return communityRepository.findByJoined(userId);
+	}
+	
+	public List<Community> findByRecommendation(Integer userId) {
+		return communityRepository.findByRecommendation(userId);
+	}
+	
+	public List<Community> findByHobby(Integer hobbyId) {
+		return communityRepository.findByHobby(hobbyId);
+	}
 }

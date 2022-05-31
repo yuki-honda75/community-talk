@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.domain.Category;
 import com.example.domain.Community;
 import com.example.repository.CommunityRepository;
 
@@ -27,5 +28,9 @@ public class CommunityService {
 	
 	public List<Community> findByHobby(Integer hobbyId) {
 		return communityRepository.findByHobby(hobbyId);
+	}
+	
+	public void insert(Category category) {
+		communityRepository.insert(category);
 	}
 }

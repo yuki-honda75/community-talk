@@ -95,6 +95,12 @@ public class CommunityRepository {
 		return communityList;
 	}
 	
+	/**
+	 * 趣味IDから取得する
+	 * 
+	 * @param hobbyId
+	 * @return
+	 */
 	public List<Community> findByHobby(Integer hobbyId) {
 		String sql = "select com_id, co.name as community_name, ca.category_id as category_id,"
 				+ " ca.name as category_name, h.hobby_id as hobby_id, h.name as hobby_name"
@@ -106,5 +112,15 @@ public class CommunityRepository {
 		
 		List<Community> communityList = template.query(sql, param, COMMUNITY_ROW_MAPPER);
 		return communityList;
+	}
+	
+	public void insert(Category category) {
+		String sql = "insert into communities (name, category_id)"
+				+ " values (:name, :categoryId)";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("name", category.getName())
+				.addValue("categoryId", category.getCategoryId());
+		
+		template.update(sql, param);
 	}
 }

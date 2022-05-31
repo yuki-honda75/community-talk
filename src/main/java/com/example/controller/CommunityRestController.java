@@ -5,11 +5,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.domain.Community;
+import com.example.domain.PostCommunity;
 import com.example.service.CommunityService;
 
 @RestController
@@ -39,5 +43,13 @@ public class CommunityRestController {
 		map.put("communityHobbyList", communityList);
 		
 		return map;
+	}
+	
+	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public String create(@RequestBody PostCommunity postCommunity) {
+		System.out.println(postCommunity);
+		
+		return "成功";
 	}
 }

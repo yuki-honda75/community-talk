@@ -47,9 +47,15 @@ public class CommunityRestController {
 	
 	@RequestMapping(value = "/create", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public String create(@RequestBody PostCommunity postCommunity) {
-		System.out.println(postCommunity);
-		
-		return "成功";
+	public Map<String, String> create(@RequestBody PostCommunity postCommunity) {
+		Map<String, String> message = new HashMap<>();
+		List<Community> communityList = communityService.findByName(postCommunity.getName());
+		if (!communityList.isEmpty()) {
+			message.put("error", "そのコミュニティ名はすでに使われています");
+			return message;
+		}
+		communityService.insert(postCommunity);
+		message.put("message", "作成しました");
+		return message;
 	}
 }

@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.domain.Category;
 import com.example.domain.Community;
+import com.example.domain.PostCommunity;
 import com.example.repository.CommunityRepository;
 
 @Service
@@ -14,8 +14,8 @@ public class CommunityService {
 	@Autowired
 	private CommunityRepository communityRepository;
 	
-	public List<Community> findAll() {
-		return communityRepository.findAll();
+	public List<Community> findByName(String name) {
+		return communityRepository.findByName(name);
 	}
 	
 	public List<Community> findByJoined(Integer userId) {
@@ -30,7 +30,7 @@ public class CommunityService {
 		return communityRepository.findByHobby(hobbyId);
 	}
 	
-	public void insert(Category category) {
-		communityRepository.insert(category);
+	public void insert(PostCommunity postCommunity) {
+		communityRepository.insert(postCommunity);
 	}
 }

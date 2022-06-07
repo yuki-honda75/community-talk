@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.example.domain.Group;
+import com.example.domain.PostGroup;
 
 @Repository
 public class GroupRepository {
@@ -34,5 +35,15 @@ public class GroupRepository {
 		List<Group> groupliList = template.query(sql, param, GROUP_ROW_MAPPER);
 		
 		return groupliList;
+	}
+	
+	public void insert(PostGroup postGroup) {
+		String sql = "insert into groups (name, com_id) values"
+				+ " (:name, :comId)";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("name", postGroup.getName())
+				.addValue("comId", postGroup.getComId());
+		
+		template.update(sql, param);
 	}
 }

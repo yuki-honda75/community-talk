@@ -67,7 +67,7 @@ public class CommunityRepository {
 	 * @param userId
 	 * @return
 	 */
-	public List<Community> findByJoined(Integer userId) {
+	public List<Community> findByJoined(String userId) {
 		String sql = "SELECT co.com_id as com_id, co.name as community_name, ca.category_id as category_id,"
 				+ " ca.name as category_name, h.hobby_id as hobby_id, h.name as hobby_name FROM communities as co"
 				+ " JOIN communities_between_users as cu ON co.com_id=cu.com_id"
@@ -85,7 +85,7 @@ public class CommunityRepository {
 	 * 
 	 * @return
 	 */
-	public List<Community> findByRecommendation(Integer userId) {
+	public List<Community> findByRecommendation(String userId) {
 		String sql = "SELECT co.com_id as com_id,co.name as community_name,ca.category_id as category_id,"
 				+ " ca.name as category_name,h.hobby_id as hobby_id,h.name as hobby_name FROM communities as co"
 				+ " JOIN categories as ca on co.category_id=ca.category_id"

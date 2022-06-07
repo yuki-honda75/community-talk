@@ -18,11 +18,11 @@ public class CommunityService {
 		return communityRepository.findByName(name);
 	}
 	
-	public List<Community> findByJoined(Integer userId) {
+	public List<Community> findByJoined(String userId) {
 		return communityRepository.findByJoined(userId);
 	}
 	
-	public List<Community> findByRecommendation(Integer userId) {
+	public List<Community> findByRecommendation(String userId) {
 		return communityRepository.findByRecommendation(userId);
 	}
 	

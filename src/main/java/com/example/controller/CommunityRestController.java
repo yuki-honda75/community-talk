@@ -23,10 +23,10 @@ public class CommunityRestController {
 	private CommunityService communityService;
 	
 	@RequestMapping(value = "/get", method = RequestMethod.GET)
-	public Map<String, List<Community>> getCommunity() {
+	public Map<String, List<Community>> getCommunity(String userId) {
 		Map<String, List<Community>> map = new HashMap<>();
-		List<Community> joinedCommunityList = communityService.findByJoined(1);
-		List<Community> recommendedCommunityList = communityService.findByRecommendation(1);
+		List<Community> joinedCommunityList = communityService.findByJoined(userId);
+		List<Community> recommendedCommunityList = communityService.findByRecommendation(userId);
 		
 		map.put("joined", joinedCommunityList);
 		map.put("recommended", recommendedCommunityList);

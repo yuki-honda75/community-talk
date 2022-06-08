@@ -3,6 +3,7 @@ package com.example.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.domain.PostProfile;
 import com.example.domain.Profile;
 import com.example.repository.ProfileRepository;
 
@@ -15,7 +16,7 @@ public class ProfileService {
 		return profileRepository.findByUserId(userId);
 	}
 	
-	public void insert(Profile profile) {
-		profileRepository.insert(profile);
+	public void insert(PostProfile postProfile) {
+		profileRepository.insert(postProfile);
 	}
 }

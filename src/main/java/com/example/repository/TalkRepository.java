@@ -23,7 +23,7 @@ public class TalkRepository {
 		
 		Profile profile = new Profile();
 		profile.setProfileId(rs.getInt("profile_id"));
-		profile.setUserId(rs.getInt("user_id"));
+		profile.setUserId(rs.getString("user_id"));
 		profile.setName(rs.getString("name"));
 		profile.setProfession(rs.getString("profession"));
 		profile.setIconImg(rs.getString("icon_img"));

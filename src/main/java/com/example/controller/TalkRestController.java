@@ -57,4 +57,11 @@ public class TalkRestController {
 		
 		return "成功";
 	}
+	
+	@RequestMapping(value = "/join", method = RequestMethod.POST)
+	public String join(String userId, Integer comId) {
+		groupService.insertGroupBtwUser(userId, comId);
+		
+		return "成功";
+	}
 }

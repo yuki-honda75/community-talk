@@ -33,4 +33,16 @@ public class CommunityService {
 	public void insert(PostCommunity postCommunity) {
 		communityRepository.insert(postCommunity);
 	}
+	
+	public void insertComBtwUser(String userId, Integer comId) {
+		communityRepository.insertComBtwUser(userId, comId);
+	}
+	
+	public void deleteComBtwUser(String userId, Integer comId) {
+		communityRepository.deleteComBtwUser(userId, comId);
+	}
+	
+	public boolean checkComBtwUser(String userId, Integer comId) {
+		return communityRepository.checkComBtwUser(userId, comId);
+	}
 }

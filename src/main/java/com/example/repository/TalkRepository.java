@@ -35,9 +35,15 @@ public class TalkRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	/**
+	 * トーク内容を表示する
+	 * 
+	 * @param groupId
+	 * @return
+	 */
 	public List<Talk> findByGroupId(Integer groupId) {
 		String sql = "SELECT talk_id,context,group_id,profile_id,t.user_id as user_id,name,profession,icon_img"
-				+ " FROM talks as t join profiles as p on t.user_id=p.user_id"
+				+ " FROM talks as t left outer join profiles as p on t.user_id=p.user_id"
 				+ " WHERE group_id=:groupId"
 				+ " order by talk_id";
 		SqlParameterSource param = new MapSqlParameterSource().addValue("groupId", groupId);
@@ -46,6 +52,11 @@ public class TalkRepository {
 		return talkList;
 	}
 	
+	/**
+	 * トークを送信する
+	 * 
+	 * @param postTalk
+	 */
 	public void insert(PostTalk postTalk) {
 		String sql = "insert into talks (context, group_id, user_id) values"
 				+ " (:context, :groupId, :userId)";
@@ -56,4 +67,5 @@ public class TalkRepository {
 		
 		template.update(sql, param);
 	}
+	
 }

@@ -21,4 +21,8 @@ public class GroupService {
 	public void insert(PostGroup postGroup) {
 		groupRepository.insert(postGroup);
 	}
+	
+	public void insertGroupBtwUser(String userId, Integer comId) {
+		groupRepository.insertGroupBtwUser(userId, comId);
+	}
 }

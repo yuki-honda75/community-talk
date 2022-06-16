@@ -26,6 +26,12 @@ public class GroupRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate template;
 	
+	/**
+	 * コミュニティごとのトークグループを取得
+	 * 
+	 * @param comId
+	 * @return
+	 */
 	public List<Group> findByComId(Integer comId) {
 		String sql = "SELECT g.group_id as group_id,name,user_id FROM groups as g"
 				+ " LEFT OUTER JOIN groups_between_users as gu ON g.group_id=gu.group_id"
@@ -37,12 +43,33 @@ public class GroupRepository {
 		return groupliList;
 	}
 	
+	/**
+	 * グループを作成
+	 * 
+	 * @param postGroup
+	 */
 	public void insert(PostGroup postGroup) {
 		String sql = "insert into groups (name, com_id) values"
 				+ " (:name, :comId)";
 		SqlParameterSource param = new MapSqlParameterSource()
 				.addValue("name", postGroup.getName())
 				.addValue("comId", postGroup.getComId());
+		
+		template.update(sql, param);
+	}
+	
+	/**
+	 * トークグループに参加する処理
+	 * 
+	 * @param userId
+	 * @param comId
+	 */
+	public void insertGroupBtwUser(String userId, Integer comId) {
+		String sql = "insert into groups_between_users (user_id, com_id) values"
+				+ " (:userId, :comId)";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("userId", userId)
+				.addValue("comId", comId);
 		
 		template.update(sql, param);
 	}

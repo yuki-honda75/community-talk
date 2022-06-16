@@ -7,8 +7,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-public class PostTalk {
-	private String context;
-	private Integer groupId;
+public class ComBtwUser {
 	private String userId;
+	private Integer comId;
 }

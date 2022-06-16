@@ -58,4 +58,21 @@ public class CommunityRestController {
 		message.put("message", "作成しました");
 		return message;
 	}
+	
+	@RequestMapping(value = "/check", method = RequestMethod.GET)
+	public boolean check(String userId, Integer comId) {
+		return communityService.checkComBtwUser(userId, comId);
+	}
+	
+	@RequestMapping(value = "/join", method = RequestMethod.POST)
+	public String join(String userId, Integer comId) {
+		boolean check = communityService.checkComBtwUser(userId, comId);
+		if (check) {
+			communityService.deleteComBtwUser(userId, comId);
+		} else {
+			communityService.insertComBtwUser(userId, comId);
+		}
+		
+		return "成功";
+	}
 }

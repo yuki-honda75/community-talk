@@ -3,6 +3,7 @@ package com.example.repository;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.Category;
+import com.example.domain.ComBtwUser;
 import com.example.domain.Community;
 import com.example.domain.Hobby;
 import com.example.domain.PostCommunity;
@@ -146,5 +148,61 @@ public class CommunityRepository {
 				.addValue("categoryId", categoryId);
 		
 		template.update(sql, param);
+	}
+	
+	/**
+	 * コミュニティに参加する処理
+	 * 
+	 * @param userId
+	 * @param comId
+	 */
+	public void insertComBtwUser(String userId, Integer comId) {
+		String sql = "insert into communities_between_users (user_id, com_id) values"
+				+ " (:userId, :comId)";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("userId", userId)
+				.addValue("comId", comId);
+		
+		template.update(sql, param);
+	}
+	
+	/**
+	 * 参加を解除
+	 * 
+	 * @param userId
+	 * @param comId
+	 */
+	public void deleteComBtwUser(String userId, Integer comId) {
+		String sql = "delete from communities_between_users"
+				+ " where user_id=:userId and com_id=:comId";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("userId", userId)
+				.addValue("comId", comId);
+		
+		template.update(sql, param);
+	}
+	
+	/**
+	 * 参加状況のチェック
+	 * 
+	 * @param userId
+	 * @param comId
+	 * @return
+	 */
+	public boolean checkComBtwUser(String userId, Integer comId) {
+		String sql = "select * from communities_between_users"
+				+ " where user_id=:userId and com_id=:comId";
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("userId", userId)
+				.addValue("comId", comId);
+		RowMapper<ComBtwUser> mapper = new BeanPropertyRowMapper<>(ComBtwUser.class);
+		List<ComBtwUser> list = template.query(sql, param, mapper);
+		if (list.isEmpty()) {
+			//不参加
+			return false;
+		}
+		//参加済み
+		return true;
+		
 	}
 }

@@ -18,7 +18,6 @@ public class GroupRepository {
 		Group group = new Group();
 		group.setGroupId(rs.getInt("group_id"));
 		group.setName(rs.getString("name"));
-		group.setUserId(rs.getInt("user_id"));
 		
 		return group;
 	};
@@ -33,8 +32,7 @@ public class GroupRepository {
 	 * @return
 	 */
 	public List<Group> findByComId(Integer comId) {
-		String sql = "SELECT g.group_id as group_id,name,user_id FROM groups as g"
-				+ " LEFT OUTER JOIN groups_between_users as gu ON g.group_id=gu.group_id"
+		String sql = "SELECT group_id,name FROM groups"
 				+ " WHERE com_id=:comId";
 		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("comId", comId);

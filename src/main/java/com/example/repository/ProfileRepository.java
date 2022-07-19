@@ -28,8 +28,10 @@ public class ProfileRepository {
 	 * @return
 	 */
 	public Profile findByUserId(String userId) {
-		String sql = "select profile_id, user_id, name, profession, icon_img"
-				+ " from profiles where user_id=:userId";
+		String sql = "select p.profile_id, user_id, name, profession, icon_img, ph.hobby_id"
+				+ " from profiles p join profiles_between_hobbies as ph"
+				+ " on p.profile_id = ph.profile_id"
+				+ " where user_id=:userId";
 		
 		SqlParameterSource param = new MapSqlParameterSource().addValue("userId", userId);
 		List<Profile> profileList = template.query(sql, param, PROFILE_ROW_MAPPER);

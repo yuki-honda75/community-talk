@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.domain.PostProfile;
 import com.example.domain.Profile;
+import com.example.domain.UpdateProfile;
 
 @Repository
 public class ProfileRepository {
@@ -23,24 +24,27 @@ public class ProfileRepository {
 		List<Integer> hobbyIdList = null;
 		int beforeId = 0;
 		
-		int id = rs.getInt("p.profile_id");
-		if (beforeId != id) {
-			Profile profile = new Profile();
-			profile.setProfileId(id);
-			profile.setUserId(rs.getString("user_id"));
-			profile.setName(rs.getString("name"));
-			profile.setProfession(rs.getString("profession"));
-			profile.setIconImg(rs.getString("icon_img"));
-			hobbyIdList = new ArrayList<>();
-			profile.setHobbyId(hobbyIdList);
+		while(rs.next()) {
+			int id = rs.getInt("profile_id");
+			if (beforeId != id) {
+				Profile profile = new Profile();
+				profile.setProfileId(id);
+				profile.setUserId(rs.getString("user_id"));
+				profile.setName(rs.getString("name"));
+				profile.setProfession(rs.getString("profession"));
+				profile.setIconImg(rs.getString("icon_img"));
+				hobbyIdList = new ArrayList<>();
+				profile.setHobbyId(hobbyIdList);
+				
+				profileList.add(profile);
+				
+				beforeId = id;
+			}
 			
-			profileList.add(profile);
-			
-			beforeId = id;
+			Integer hobbyId = rs.getInt("hobby_id");
+			hobbyIdList.add(hobbyId);
 		}
-		
-		Integer hobbyId = rs.getInt("hobby_id");
-		hobbyIdList.add(hobbyId);
+			
 		
 		return profileList;
 	};
@@ -88,6 +92,12 @@ public class ProfileRepository {
 		insertHobby(postProfile.getHobbyId(), profileId);
 	}
 	
+	/**
+	 * 交差テーブルに趣味を登録
+	 * 
+	 * @param hobbyId
+	 * @param profileId
+	 */
 	public void insertHobby(List<Integer> hobbyId, Integer profileId) {
 		StringBuilder sql = 
 				new StringBuilder("insert into profiles_between_hobbies (profile_id, hobby_id) values");
@@ -103,5 +113,39 @@ public class ProfileRepository {
 		}
 		param.addValue("profileId", profileId);
 		template.update(sql.toString(), param);
+	}
+	
+	/**
+	 * プロフィール情報のアップデート
+	 * 
+	 * @param updateProfile
+	 */
+	public void update(UpdateProfile updateProfile) {
+		String sql = "update profiles"
+				+ " set user_id=:userId, name=:name, profession=:profession, icon_img=:iconImg"
+				+ " where profile_id=:profileId";
+		Integer profileId = updateProfile.getProfileId();
+		SqlParameterSource param = new MapSqlParameterSource()
+				.addValue("userId", updateProfile.getUserId())
+				.addValue("name", updateProfile.getName())
+				.addValue("profession", updateProfile.getProfession())
+				.addValue("iconImg", updateProfile.getIconImg())
+				.addValue("profileId", profileId);
+		
+		template.queryForObject(sql, param, Integer.class);
+		deleteHobby(profileId);
+		insertHobby(updateProfile.getHobbyId(), profileId);
+	}
+	
+	/**
+	 * 中間テーブルからプロフィールに紐づくデータを削除
+	 * 
+	 * @param profileId
+	 */
+	public void deleteHobby(Integer profileId) {
+		String sql = "delete from profiles_between_hobbies Where profile_id=:profileId";
+		SqlParameterSource param = new MapSqlParameterSource().addValue("profileId", profileId);
+		
+		template.update(sql, param);
 	}
 }

@@ -18,7 +18,7 @@ public class HobbyRepository {
 	private NamedParameterJdbcTemplate template;
 	
 	public List<Hobby> findAll() {
-		String sql = "select hobby_id,name from hobbies";
+		String sql = "select hobby_id,name from hobbies order by hobby_id";
 		List<Hobby> hobbyList = template.query(sql, HOBBY_ROW_MAPPER);
 		
 		return hobbyList;

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.domain.PostProfile;
 import com.example.domain.Profile;
+import com.example.domain.UpdateProfile;
 import com.example.repository.ProfileRepository;
 
 @Service
@@ -18,5 +19,9 @@ public class ProfileService {
 	
 	public void insert(PostProfile postProfile) {
 		profileRepository.insert(postProfile);
+	}
+	
+	public void update(UpdateProfile updateProfile) {
+		profileRepository.update(updateProfile);
 	}
 }

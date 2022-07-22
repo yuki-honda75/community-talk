@@ -132,7 +132,7 @@ public class ProfileRepository {
 				.addValue("iconImg", updateProfile.getIconImg())
 				.addValue("profileId", profileId);
 		
-		template.queryForObject(sql, param, Integer.class);
+		template.update(sql, param);
 		deleteHobby(profileId);
 		insertHobby(updateProfile.getHobbyId(), profileId);
 	}

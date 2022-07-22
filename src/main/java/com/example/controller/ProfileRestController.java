@@ -38,6 +38,7 @@ public class ProfileRestController {
 	
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String updateProfile(@RequestBody UpdateProfile updateProfile) {
+		System.out.println(updateProfile);
 		profileService.update(updateProfile);
 		
 		return "成功";
